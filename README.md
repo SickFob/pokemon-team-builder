@@ -1,9 +1,14 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Prerequisites
-- node '>=18.17.0'
+- node >=18.17.0
 - npm installed
 - docker installed and running
+
+This project has been developed with the following versions
+- npm 10.8.1
+- node v20.16
+- docker v4.33.1
 
 ## Getting Started
 
