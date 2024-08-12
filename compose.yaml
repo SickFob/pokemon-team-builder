@@ -1,0 +1,45 @@
+services:
+  app:
+    build:
+      context: .
+      network: host # need during build to allow prisma to connect to DB 
+      args:
+        - DATABASE_URL=postgresql://user:password@localhost:5432/pokemon_teams_db # PRISMA: my network = localhost
+    container_name: nextjs
+    image: nextjs
+    profiles:
+      - app
+    volumes:
+      - F:/projects/snce/pokemon-team-builder:/usr/src/app
+    command: npm run dev
+    environment:
+      DATABASE_URL: postgresql://user:password@postgres:5432/pokemon_teams_db # PRISMA: docker network = postgres
+      PORT: 3000
+      NODE_ENV: "development"
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:15.4
+    profiles:
+      - db
+    container_name: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pokemon_teams_db
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:7.5
+    profiles:
+      - db
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.ch
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"

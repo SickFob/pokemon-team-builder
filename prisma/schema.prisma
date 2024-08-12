@@ -1,0 +1,32 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource postgres {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Implicit many-to-many
+model Team {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique @postgres.VarChar(20)
+  // implicit relation to pokemon
+  pokemons  Pokemon[]
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
+}
+
+model Pokemon {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  baseExp   Int
+  sprite    String
+  abilities String[]
+  types     String[]
+  // implicit relation to team
+  teams     Team[]   @relation()
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
